@@ -27,16 +27,10 @@ namespace RecipEase.Server.Controllers
         /// Returns an user's shopping list
         /// </summary>
         /// <remarks>
-        ///
-        /// functionalities : Retrieves an user's shopping list with accordinging id.
-        /// 
-        /// database: ShoppingList, User
-        /// 
-        /// constraints: The authenticated user making this request must be the owner of the
-        /// shopping list.
-        /// 
-        /// query: select * ShoppingList with UserId = userId
-        /// 
+        /// Functionalities : Retrieves an user's shopping list with according id.
+        /// Database: ShoppingList, User.
+        /// Constraints: The authenticated user making this request must be the owner of the shopping list.
+        /// Query: select * ShoppingList with UserId = userId.
         /// </remarks>
         /// <param name="userId">id of the user who have the shopping list.</param>
         [HttpGet("{userId}")]
@@ -56,20 +50,12 @@ namespace RecipEase.Server.Controllers
         /// Edit an user's shopping list
         /// </summary>
         /// <remarks>
-        ///
-        /// functionalities : Edit an user's shopping list with accordinging id.
-        /// 
-        /// database: ShoppingList, User
-        /// 
-        /// constraints: The authenticated user making this request must be the owner of the
-        /// shopping list.
-        /// 
-        /// query: update ShoppingList Set (some values) where UserId = userId
-        /// 
+        /// Functionalities : Edit an user's shopping list with accordinging id.
+        /// Database: ShoppingList, User.
+        /// Constraints: The authenticated user making this request must be the owner of the shopping list.
+        /// Query: update ShoppingList Set (some values) where UserId = userId
         /// </remarks>
         /// <param name="userId">id of the user who have the shopping list.</param>
-        /// <param name="apiShoppingList"></param>
-
         [HttpPut("{userId}")]
         [Consumes("application/json")]
         public async Task<IActionResult> PutApiShoppingList(string userId, ApiShoppingList apiShoppingList)

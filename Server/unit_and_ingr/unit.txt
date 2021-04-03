@@ -1,0 +1,62 @@
+volume
+
+pint (U.S.),(pt)
+pint (British),(pt)
+fluid ounce (U.S.),(fl oz)
+fluid ounce (British),(fl oz)
+cup,
+tablespoon,
+dessert spoon,
+teaspoon,
+liter,(l)
+deciliter,(dl)
+milliliter,(ml)
+cup (European),
+tablespoon (European),
+dessert spoon (European),
+teaspoon (European),
+cup (Australian),
+tablespoon (Australian),
+dessert spoon (Australian),
+teaspoon (Australian),
+
+--------------------------------------
+weight
+
+pound,(lb)
+ounce,(oz)
+kilogram,(kg)
+gram,(g)
+
+---------------------------------------
+volume and ratio from  US cup
+
+pint(U.S.),0.0625
+pint (British),0.05204
+fluid ounce (U.S.),1
+fluid ounce (British),1.041
+cup,0.125
+tablespoon,2
+dessert spoon,3
+teaspoon,6
+liter,0.02957
+deciliter,0.2957
+milliliter,29.57
+cup (European),0.1183
+tablespoon (European),1.972
+dessert spoon (European),2.957
+teaspoon (European),5.915
+cup (Australian),0.1183
+tablespoon (Australian),1.479
+dessert spoon (Australian),2.957 
+teaspoon (Australian),5.915
+
+-----------------------------------------
+weight and ratio from us pound
+
+pound,1
+ounce,16
+kilogram,0.4536
+gram,453.6
+
+

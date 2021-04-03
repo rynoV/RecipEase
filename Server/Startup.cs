@@ -37,6 +37,7 @@ namespace RecipEase.Server
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             );
 
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<User>()

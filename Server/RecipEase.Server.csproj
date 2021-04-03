@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <!-- For debugging Entity Framework -->
+    <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.0-*" />
     <!-- Allows for usage of command line tools like Drop-Database -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0-*">

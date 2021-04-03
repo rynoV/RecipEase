@@ -26,17 +26,11 @@ namespace RecipEase.Server.Controllers
         /// Retrieves every unit
         /// </summary>
         /// <remarks>
-        ///
         /// functionalities : retrieve all unit in Unit table
-        /// 
         /// database: Unit
-        /// 
         /// constraints: no constraints
-        /// 
         /// query: Select * from Unit
-        /// 
         /// </remarks>
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ApiUnit>>> GetApiUnit()
         {
@@ -47,15 +41,10 @@ namespace RecipEase.Server.Controllers
         /// Get a unit with the specified name
         /// </summary>
         /// <remarks>
-        ///
         /// functionalities : retrieve the unit with the specified id
-        /// 
         /// database: Unit
-        /// 
         /// constraints: no constraints
-        /// 
         /// query: select * from Unit where Name = id
-        /// 
         /// </remarks>
         /// <param name="id">name of the unit to be retrieved.</param>
 

@@ -30,6 +30,7 @@ namespace RecipEase.Server
                 {
                     var context = services.GetRequiredService<RecipEaseContext>();
                     DbInitializer.Initialize(context);
+                    DbInitializer.InitializeUnit(context);
                 }
                 catch (Exception ex)
                 {

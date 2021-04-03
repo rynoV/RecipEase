@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RecipEase.Shared.Models
 {
-    public enum UnitType {
-        Volume, Mass
+    public enum UnitType
+    {
+        Volume, Weight
     }
 
     public class Unit
@@ -15,7 +16,7 @@ namespace RecipEase.Shared.Models
         [Required]
         public UnitType UnitType { get; set; }
 
-        [Required]
+        //some unit doesn't have symbol
         public string Symbol { get; set; }
     }
 }

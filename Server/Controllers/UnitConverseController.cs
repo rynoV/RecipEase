@@ -26,15 +26,10 @@ namespace RecipEase.Server.Controllers
         /// Get all unit conversion
         /// </summary>
         /// <remarks>
-        ///
         /// functionalities : retrieve all unitconversion in UnitConversion
-        /// 
         /// database: UnitConversion
-        /// 
         /// constraints: no constraints
-        /// 
         /// query: select * from UnitConversion
-        /// 
         /// </remarks>
         [HttpGet]
         [Route("all")]
@@ -47,18 +42,12 @@ namespace RecipEase.Server.Controllers
         /// Get  unit conversion from one unit to another
         /// </summary>
         /// <remarks>
-        ///
-        /// functionalities : retrieve all unitconversion in UnitConversion
-        /// 
+        /// functionalities : retrieve unitconversion in UnitConversion with the specified units from both side
         /// database: UnitConversion, Unit
-        /// 
         /// constraints: two unit must be the same unit type
-        /// 
         /// query: select * from UnitConversion where ConvertsToUnitName = id1 and 
         /// ConvertsFromUnitName = id2
-        /// 
         /// </remarks>
-
         [HttpGet]
         public async Task<ActionResult<ApiUnitConversion>> GetApiUnitConversion(string id1, string id2)
         {

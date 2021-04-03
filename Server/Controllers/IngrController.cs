@@ -26,15 +26,10 @@ namespace RecipEase.Server.Controllers
         /// Returns all the ingredients in Ingredient
         /// </summary>
         /// <remarks>
-        ///
-        /// functionalities : Retrieves all ingredients. 
-        /// 
-        /// database: Ingredient
-        /// 
-        /// constraints: no constraints
-        /// 
-        /// query: select * in Ingredient
-        /// 
+        /// Functionalities : Retrieves all ingredients.
+        /// Database: Ingredient.
+        /// Constraints: no constraints.
+        /// Query: Select * in Ingredient.
         /// </remarks>
 
         [HttpGet]
@@ -47,16 +42,12 @@ namespace RecipEase.Server.Controllers
         /// Returns the ingredients in Ingredient with the given id
         /// </summary>
         /// <remarks>
-        ///
-        /// functionalities : Retrieves 1 row of ingredient
-        /// 
-        /// database: Ingredient
-        /// 
-        /// constraints: no constraints
-        /// 
-        /// query: select * in Ingredient where name=id
-        /// 
+        /// Functionalities : Retrieves 1 row of ingredient.
+        /// Database: Ingredient.
+        /// Constraints: No constraints.
+        /// Query: Select * in Ingredient where name=id.
         /// </remarks>
+        /// <param name="id">id of the specific ingredient</param>
         [HttpGet("{id}")]
         public async Task<ActionResult<ApiIngredient>> GetApiIngredient(string id)
         {
