@@ -30,7 +30,6 @@ namespace RecipEase.Server.Controllers
         /// Returns list of all ingredients used by all recipes
         /// </summary>
         /// <remarks>
-        ///
         /// Retrieves all ingredients that all recipes use,
         /// and their associated units, from the `Uses` table.
         ///
@@ -57,16 +56,15 @@ namespace RecipEase.Server.Controllers
         ///and their associated attributes, is performed.
         /// </remarks>
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApiUses>> GetApiUses(int id)
+        public async Task<ActionResult<IEnumerable<ApiUses>>> GetApiUses(int id)
         {
-            var apiUses = await _context.ApiUses.FindAsync(id);
+            var uses = await _context.Uses.Where(u => u.RecipeId.Equals(id)).Select(u => u.ToApiUses()).ToListAsync();
 
-            if (apiUses == null)
+            if (uses == null)
             {
                 return NotFound();
             }
-
-            return apiUses;
+            return uses;
         }
 
         /// <summary>

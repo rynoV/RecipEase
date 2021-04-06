@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using RecipEase.Shared.Models.Api;
 
 namespace RecipEase.Shared.Models
 {
@@ -25,5 +26,16 @@ namespace RecipEase.Shared.Models
         public Unit Unit { get; set; }
 
         public Ingredient Ingredient { get; set; }
+
+        public ApiUses ToApiUses()
+        {
+            return new()
+            {
+                RecipeId = RecipeId,
+                UnitName = UnitName,
+                IngrName = IngrName,
+                Quantity = Quantity
+            };
+        }
     }
 }

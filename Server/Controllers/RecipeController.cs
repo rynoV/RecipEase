@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipEase.Server.Data;
 using RecipEase.Shared.Models.Api;
+using RecipEase.Shared.Models;
 
 namespace RecipEase.Server.Controllers
 {
@@ -46,14 +47,27 @@ namespace RecipEase.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ApiRecipe>> GetRecipe(int id)
         {
-            var apiRecipe = await _context.ApiRecipe.FindAsync(id);
+            var recipe = await _context.Recipe.FindAsync(id);
 
-            if (apiRecipe == null)
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            return apiRecipe;
+            return new ApiRecipe()
+            {
+                Id = recipe.Id,
+                Name = recipe.Name,
+                Steps = recipe.Steps,
+                Cholesterol = recipe.Cholesterol,
+                Fat = recipe.Fat,
+                Sodium = recipe.Sodium,
+                Protein = recipe.Protein,
+                Carbs = recipe.Carbs,
+                Calories = recipe.Calories,
+                AuthorId = recipe.AuthorId,
+                AverageRating = 5
+            };
         }
 
         /// <summary>
@@ -85,9 +99,9 @@ namespace RecipEase.Server.Controllers
         /// <param name="userId">Get only recipes authored by the customer with this
         /// id.</param>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApiRecipe>>> GetRecipes(string titleMatch, string categoryName, string userId)
+        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes(string titleMatch, string categoryName, string userId)
         {
-            return await _context.ApiRecipe.ToListAsync();
+            return await _context.Recipe.ToListAsync();
         }
 
         /// <summary>
@@ -114,7 +128,7 @@ namespace RecipEase.Server.Controllers
         /// <param name="apiRecipe"></param>
         [HttpPut("{id}")]
         [Consumes("application/json")]
-        public async Task<IActionResult> PutRecipe(int id, ApiRecipe apiRecipe)
+        public async Task<IActionResult> PutRecipe(int id, Recipe apiRecipe)
         {
             if (id != apiRecipe.Id)
             {
@@ -168,9 +182,9 @@ namespace RecipEase.Server.Controllers
         /// </remarks>
         [HttpPost]
         [Consumes("application/json")]
-        public async Task<ActionResult<ApiRecipe>> PostRecipe(ApiRecipe apiRecipe)
+        public async Task<ActionResult<Recipe>> PostRecipe(Recipe apiRecipe)
         {
-            _context.ApiRecipe.Add(apiRecipe);
+            _context.Recipe.Add(apiRecipe);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetApiRecipe", new { id = apiRecipe.Id }, apiRecipe);
@@ -200,13 +214,13 @@ namespace RecipEase.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
-            var apiRecipe = await _context.ApiRecipe.FindAsync(id);
+            var apiRecipe = await _context.Recipe.FindAsync(id);
             if (apiRecipe == null)
             {
                 return NotFound();
             }
 
-            _context.ApiRecipe.Remove(apiRecipe);
+            _context.Recipe.Remove(apiRecipe);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -214,7 +228,7 @@ namespace RecipEase.Server.Controllers
 
         private bool RecipeExists(int id)
         {
-            return _context.ApiRecipe.Any(e => e.Id == id);
+            return _context.Recipe.Any(e => e.Id == id);
         }
     }
 }

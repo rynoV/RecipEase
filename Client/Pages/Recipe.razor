@@ -1,5 +1,13 @@
 ﻿@page "/Recipe/{recipeId}"
+@using RecipEase.Shared.Models.Api
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject HttpClient Http
 
+@if (RecipeViewed != null && uses != null)
+{
+    <h1>@RecipeViewed.Name</h1>
 
 <h1>Recipe Title 
     <CascadingValue Value="@RecipeId">
@@ -11,44 +19,84 @@
 <br>
 <br>
 <h2>Directions</h2>
+    <p>
+        @RecipeViewed.Steps
+    </p>
 
-<p>
-    This is a recipe which describes how to make some food, here's what you need to do to make the food that this recipe describes:
-</p>
+    <h2>Ingredients</h2>
+    <ul class="list-group list-group-flush mb-4">
+        @foreach (var item in uses)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @item.IngrName
+                <span class="text-black-50">@item.Quantity @item.UnitName</span>
+                <span class="text-black-50">@ingr[item].Rarity</span>
+                <AddButton></AddButton>
+            </li>
+        }
+    </ul>
 
-<ol>
-    <li>The first step in the recipe</li>
-    <li>The second step in the recipe</li>
-    <li>The third step in the recipe</li>
-</ol>
-
-<h2>Ingredients</h2>
-<ul class="list-group list-group-flush mb-4">
-    @for (var i = 0; i < 10; i++)
-    {
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            Ingredient #@i
-            <span class="text-black-50">@i @(i % 2 == 0 ? "cups" : "g")</span>
-            <span class="badge badge-primary badge-pill">@(i % 2 == 0 ? "Rare" : "Common")</span>
-            <AddButton></AddButton>
+    <h2>Nutrition</h2>
+    <ul>
+        <li>
+            <p> <b>Calories:</b> @RecipeViewed.Calories mg. </p>
         </li>
-    }
-</ul>
 
-<h2>Nutrition</h2>
+        <li>
+            <p> <b>Carbohydrates:</b> @RecipeViewed.Carbs mg. </p>
+        </li>
 
-<p>
-    <b>Calories:</b> 100<br/>
-    <b>Carbohydrates:</b> 100<br/>
-    <b>Protein:</b> 100<br/>
-    <b>Sodium:</b> 100<br/>
-    <b>Fat:</b> 100<br/>
-    <b>Cholesterol:</b> 100<br/>
-</p>
+        <li>
+            <p> <b>Protein:</b> @RecipeViewed.Protein mg. </p>
+        </li>
+
+        <li>
+            <p> <b>Sodium:</b> @RecipeViewed.Sodium mg. </p>
+        </li>
+
+        <li>
+            <p> <b>Fat:</b> @RecipeViewed.Fat mg. </p>
+        </li>
+
+        <li>
+            <p> <b>Cholesterol:</b> @RecipeViewed.Cholesterol mg. </p>
+        </li>
+    </ul>
+}
 
 @code {
-
     [Parameter]
     public string RecipeId { get; set; } = "default value";
+
+    public ApiRecipe RecipeViewed { get; set; }
+
+    public IEnumerable<ApiUses> uses { get; set; }
+
+    public IDictionary<ApiUses, ApiIngredient> ingr { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        ingr = new Dictionary<ApiUses, ApiIngredient>();
+
+        try
+        {
+            String path = $"api/Recipe/{RecipeId}";
+            RecipeViewed = await Http.GetFromJsonAsync<ApiRecipe>(path);
+            uses = await Http.GetFromJsonAsync<IEnumerable<ApiUses>>($"api/Uses/{RecipeId}");
+            foreach (ApiUses a in uses)
+            {
+                ApiIngredient i = await Http.GetFromJsonAsync<ApiIngredient>($"api/Ingr/{a.IngrName}");
+                System.Console.WriteLine(i.GetType());
+                ingr.Add(a, i);
+            }
+        }
+
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
 
 }
