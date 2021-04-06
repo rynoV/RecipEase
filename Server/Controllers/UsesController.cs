@@ -13,7 +13,6 @@ namespace RecipEase.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     [Produces("application/json")]
     [ApiConventionType(typeof(DefaultApiConventions))]
 

@@ -1,24 +1,24 @@
 ﻿@page "/Recipe/{recipeId}"
 @using RecipEase.Shared.Models.Api
 @inject HttpClient Http
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@inject HttpClient Http
+@using RecipEase.Client.Shared.Util
+@inject IHttpClientFactory ClientFactory
+
 
 @if (RecipeViewed != null && uses != null)
 {
     <h1>@RecipeViewed.Name</h1>
 
-<h1>Recipe Title 
-    <CascadingValue Value="@RecipeId">
-        <RatingAvgCalculated></RatingAvgCalculated>
-    </CascadingValue>
-</h1>
+    <h1>Recipe Title
+        <CascadingValue Value="@RecipeId">
+            <RatingAvgCalculated></RatingAvgCalculated>
+        </CascadingValue>
+    </h1>
 
-<RateRecipeComponent></RateRecipeComponent>
-<br>
-<br>
-<h2>Directions</h2>
+    <RateRecipeComponent></RateRecipeComponent>
+    <br>
+    <br>
+    <h2>Directions</h2>
     <p>
         @RecipeViewed.Steps
     </p>
@@ -79,24 +79,19 @@
     protected override async Task OnInitializedAsync()
     {
         ingr = new Dictionary<ApiUses, ApiIngredient>();
+        var client = Auth.GetNoAuthHttpClient(ClientFactory);
 
-        try
+
+        String path = $"api/Recipe/{RecipeId}";
+        RecipeViewed = await client.GetFromJsonAsync<ApiRecipe>(path);
+        uses = await client.GetFromJsonAsync<IEnumerable<ApiUses>>($"api/Uses/{RecipeId}");
+        foreach (ApiUses a in uses)
         {
-            String path = $"api/Recipe/{RecipeId}";
-            RecipeViewed = await Http.GetFromJsonAsync<ApiRecipe>(path);
-            uses = await Http.GetFromJsonAsync<IEnumerable<ApiUses>>($"api/Uses/{RecipeId}");
-            foreach (ApiUses a in uses)
-            {
-                ApiIngredient i = await Http.GetFromJsonAsync<ApiIngredient>($"api/Ingr/{a.IngrName}");
-                System.Console.WriteLine(i.GetType());
-                ingr.Add(a, i);
-            }
+            ApiIngredient i = await client.GetFromJsonAsync<ApiIngredient>($"api/Ingr/{a.IngrName}");
+            System.Console.WriteLine(i.GetType());
+            ingr.Add(a, i);
         }
 
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
     }
 
 }
