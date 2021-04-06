@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using RecipEase.Shared.Models.Api;
 
 namespace RecipEase.Shared.Models
 {
@@ -19,5 +20,13 @@ namespace RecipEase.Shared.Models
         public Customer Customer { get; set; }
 
         public Recipe Recipe { get; set; }
+
+        public ApiRecipeRating ToApiRecipeRating()
+        {
+            return new()
+            {
+                Rating = Rating
+            };
+        }
     }
 }

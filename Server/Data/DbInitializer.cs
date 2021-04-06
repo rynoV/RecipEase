@@ -12,6 +12,8 @@ namespace RecipEase.Server.Data
     public static class DbInitializer
     {
         private static string _testCustomerId;
+        private static string _testCustomerId2;
+        private static string _testCustomerId3;
         private static string _testSupplierId;
         private static int _recipe0Id;
         private static int _recipe1Id;
@@ -70,7 +72,7 @@ namespace RecipEase.Server.Data
                     new Recipe
                     {
                         Name = "Sushi",
-                        AuthorId = _testCustomerId,
+                        AuthorId = _testCustomerId2,
                         Calories = 1,
                         Carbs = 2,
                         Cholesterol = 3,
@@ -117,6 +119,43 @@ namespace RecipEase.Server.Data
                         RecipeId = _recipe2Id,
                         UserId = _testCustomerId
                     },
+                    new RecipeRating
+                    {
+                        Rating = 2,
+                        RecipeId = _recipe0Id,
+                        UserId = _testCustomerId2
+                    },
+                    new RecipeRating
+                    {
+                        Rating = 1,
+                        RecipeId = _recipe1Id,
+                        UserId = _testCustomerId2
+                    },
+                    new RecipeRating
+                    {
+                        Rating = 5,
+                        RecipeId = _recipe2Id,
+                        UserId = _testCustomerId2
+                    },
+                    new RecipeRating
+                    {
+                        Rating = 4,
+                        RecipeId = _recipe0Id,
+                        UserId = _testCustomerId3
+                    },
+                    new RecipeRating
+                    {
+                        Rating = 3,
+                        RecipeId = _recipe1Id,
+                        UserId = _testCustomerId3
+                    },
+                    new RecipeRating
+                    {
+                        Rating = 2,
+                        RecipeId = _recipe2Id,
+                        UserId = _testCustomerId3
+                    },
+
                 };
                 
                 await context.RecipeRating.AddRangeAsync(recipeRatings);
@@ -215,13 +254,34 @@ namespace RecipEase.Server.Data
             var existingCustomer = await context.Customer.FirstOrDefaultAsync();
             if (existingCustomer == null)
             {
-                var (customer, _) = await Users.CreateUser(userManager, context, Users.AccountType.Customer,
-                    TestCustomerUsername, TestCustomerPassword);
+                var (customer, _) = await 
+                    Users.CreateUser(userManager, context, Users.AccountType.Customer,
+                        TestCustomerUsername, TestCustomerPassword);     
                 _testCustomerId = customer.Id;
+
+                (customer, _) = await 
+                    Users.CreateUser(userManager, context, Users.AccountType.Customer,
+                        "c2@c2", "c2");     
+                _testCustomerId2 = customer.Id;
+
+                (customer, _) = await 
+                    Users.CreateUser(userManager, context, Users.AccountType.Customer,
+                        "c3@c3", "c3");     
+                _testCustomerId3 = customer.Id;
             }
             else
             {
                 _testCustomerId = existingCustomer.UserId;
+
+                var (customer, _) = await 
+                    Users.CreateUser(userManager, context, Users.AccountType.Customer,
+                        "c2@c2", "c2");     
+                _testCustomerId2 = customer.Id;
+
+                (customer, _) = await 
+                    Users.CreateUser(userManager, context, Users.AccountType.Customer,
+                        "c3@c3", "c3");     
+                _testCustomerId3 = customer.Id;
             }
 
             var existingSupplier = await context.Supplier.FirstOrDefaultAsync();

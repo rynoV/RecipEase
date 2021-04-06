@@ -93,7 +93,11 @@ namespace RecipEase.Server
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 var context = scope.ServiceProvider.GetRequiredService<RecipEaseContext>();
                 Users.CreateUser(userManager, context, Users.AccountType.Customer, "c@c", "c").Wait();
+                Users.CreateUser(userManager, context, Users.AccountType.Customer, "c2@c2", "c2").Wait();
+                Users.CreateUser(userManager, context, Users.AccountType.Customer, "c3@c3", "c3").Wait();
                 Users.CreateUser(userManager, context, Users.AccountType.Supplier, "s@s", "s").Wait();
+                Users.CreateUser(userManager, context, Users.AccountType.Supplier, "s2@s2", "s2").Wait();
+                Users.CreateUser(userManager, context, Users.AccountType.Supplier, "s3@s3", "s3").Wait();
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

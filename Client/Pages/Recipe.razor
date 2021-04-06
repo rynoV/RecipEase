@@ -9,8 +9,16 @@
 {
     <h1>@RecipeViewed.Name</h1>
 
-    <h2>Directions</h2>
+<h1>Recipe Title 
+    <CascadingValue Value="@RecipeId">
+        <RatingAvgCalculated></RatingAvgCalculated>
+    </CascadingValue>
+</h1>
 
+<RateRecipeComponent></RateRecipeComponent>
+<br>
+<br>
+<h2>Directions</h2>
     <p>
         @RecipeViewed.Steps
     </p>
@@ -58,7 +66,7 @@
 
 @code {
     [Parameter]
-    public string RecipeId { get; set; }
+    public string RecipeId { get; set; } = "default value";
 
     public ApiRecipe RecipeViewed { get; set; }
 

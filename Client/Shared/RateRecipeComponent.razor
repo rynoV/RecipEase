@@ -1,0 +1,25 @@
+
+<div class="starRatings">
+  <RadzenRating Change=@(args => OnChange(args, "Rating with " + @numStars + " stars")) />
+</div>
+
+@code
+{
+    double ratingValue = 4.5;
+    int numStars = 0;
+    void OnChange(int value, string name)
+    {
+        if (value == 0)
+        {
+            //rating removed by user, delete the users rating in the database
+        }
+        else
+        {
+            //update users rating in the database
+        }
+
+        //debug
+        numStars = value;
+        Console.WriteLine($"{name} value changed to {value}");
+    }
+}

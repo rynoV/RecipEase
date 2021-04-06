@@ -24,6 +24,52 @@ namespace RecipEase.Server.Controllers
         }
 
         /// <summary>
+        /// Returns the (user) rating of the recipe under consideration
+        /// </summary>
+        /// <remarks>
+        ///
+        /// In the case of a specific customers rating, it
+        /// retrieves the object with the given recipeID value and customer userID,
+        /// from the recipeID and userID columns, from the
+        /// `RecipeRating` table, if the entry exists. In this case the following query applies:
+        /// A 'select rating' query with a 'where userId=x and recipeId=y' clause  to find a users
+        /// rating from the RecipeRating table
+        ///
+        /// In the case of a recipe's rating, it
+        /// retrieves all objects with the given recipeID value
+        /// from the recipeID column, from the
+        /// `RecipeRating` table, if the entry exists. In this case the following query applies:
+        ///
+        /// A 'select rating' query with a 'where' clause to find the receipeID's ratings from the
+        /// RecipeRating table
+        /// </remarks>
+        /// <param name="userId">The Username of the Customer to retrieve.</param>
+        /// <param name="recipeId">The recipeID of the recipe to retrieve.</param>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<ApiRecipeRating>>> GetRecipeRating(string userId, int recipeId)
+        {
+            if (userId == null)
+            {
+                //get rows that match the recipeID
+                var ratings = 
+                    from c in _context.RecipeRating
+                    where c.RecipeId == recipeId
+                    select c;
+                return await ratings.Select(x => x.ToApiRecipeRating() ).ToListAsync();
+            }
+
+            //else return a recipe rating of the current customer user
+            var userRating =
+                from c in _context.RecipeRating
+                where c.UserId == userId && c.RecipeId == recipeId
+                select c;
+            return await userRating.Select(x => x.ToApiRecipeRating() ).ToListAsync();
+        }
+        
+        /// <summary>
         /// Create a recipe rating.
         /// </summary>
         /// <remarks>
