@@ -15,7 +15,6 @@ namespace RecipEase.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     [Produces("application/json")]
     [ApiConventionType(typeof(DefaultApiConventions))]
     public class CustomerController : ControllerBase
@@ -77,6 +76,7 @@ namespace RecipEase.Server.Controllers
         ///<param name="apiCustomer">The Customer object to be updated.</param>
         [HttpPut("{id}")]
         [Consumes("application/json")]
+        [Authorize]
         public async Task<IActionResult> PutCustomer(string id, ApiCustomer apiCustomer)
         {
             var currentUserId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -131,6 +131,7 @@ namespace RecipEase.Server.Controllers
         ///<param name="apiCustomer">The Customer object to be updated.</param>
         [HttpPost]
         [Consumes("application/json")]
+        [Authorize]
         public async Task<ActionResult<ApiCustomer>> PostApiCustomer(ApiCustomer apiCustomer)
         {
             _context.ApiCustomer.Add(apiCustomer);
@@ -166,6 +167,7 @@ namespace RecipEase.Server.Controllers
         /// </remarks>
         ///<param name="id">The username of the Customer to delete.</param>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteApiCustomer(string id)
         {
             var apiCustomer = await _context.ApiCustomer.FindAsync(id);
